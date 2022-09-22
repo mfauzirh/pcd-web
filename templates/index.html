@@ -1,0 +1,90 @@
+{% extends 'layout.html' %}
+{% block head %}
+<title>Aplikasi PCD</title>
+{% endblock %}
+
+{% block body %}
+<!-- <a href="/extract-rgb">pertemuan 2</a> -->
+<main id="indexMain">
+  <section id="section1">
+    <canvas id="canvas1"></canvas>
+    <div class="header">
+      <h1>Pengolahan Citra Digital.</h1>
+      <p>Aplikasi Pengolahan Citra Digital (PCD) merupakan kumpulan program untuk mengelolah citra digital. Dibuat oleh
+        <a href="https://github.com/mfauzirh" target="_blank">mfauzirh</a></p>
+    </div>
+    <div id="scrollIndicator">
+      <div id="mouse_icon">
+        <div id="topLine"></div>
+        <div id="bottomLine"></div>
+        <p>SCROLL</p>
+      </div>
+    </div>
+  </section>
+  <section id="section2">
+    <h1>Daftar Program</h1>
+    <div class="programs">
+      <div class="row mt-3">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Extract RGB</h5>
+            <p class="card-text">
+              Melakukan ekstraksi Channel RGB (Red, Green, Blue) dari suatu citra
+            </p>
+            <a href="extract-rgb" class="btn" style="background-color: #fdfd1f">Extract RGB</a>
+          </div>
+        </div>
+      </div>
+      <div class="row mt-3">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Image To Grayscale</h5>
+            <p class="card-text">
+              Mengubah citra menjadi grayscale
+            </p>
+            <a href="grayscale" class="btn" style="background-color: #fdfd1f">Image To Grayscale</a>
+          </div>
+        </div>
+      </div>
+      <div class="row mt-3">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Circle Detection</h5>
+            <p class="card-text">
+              Mendeteksi bentuk lingkaran pada suatu citra
+            </p>
+            <a href="extract-rgb" class="btn" style="background-color: #fdfd1f">Circle Detection</a>
+          </div>
+        </div>
+      </div>
+      <div class="row mt-3">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Brightness Manipulation</h5>
+            <p class="card-text">
+              Memanipulasi kecerahan citra dengan berbagai metode
+            </p>
+            <a href="brightness-manipulation" class="btn" style="background-color: #fdfd1f">Brightness Manipulation</a>
+          </div>
+        </div>
+      </div>
+      <div class="row mt-3">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Bitwise Operation</h5>
+            <p class="card-text">
+              Perform bitwise operation to an image such as and, or, not, xor
+            </p>
+            <a href="bitwise-operation" class="btn" style="background-color: #fdfd1f">Bitwise Operation</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <footer>
+    <h5>Pengolahan Citra Digital.</h5>
+    <p>&copy;2022 mfauzirh</p>
+  </footer>
+</main>
+<script src="{{ url_for('static', filename='js/particles.js') }}"></script>
+{% endblock %}

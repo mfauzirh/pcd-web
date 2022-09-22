@@ -1,0 +1,179 @@
+{% extends 'layout.html' %}
+
+{% include 'navbar.html' %}
+
+{% block head %}
+<title>Bitwise Operation</title>
+{% endblock %}
+
+{% block body %}
+<main>
+    <section class="d-flex justify-content-center mt-6">
+        <div style="width: 80vw;">
+            <div class="row mt-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title"><label for="bitwisemode" class="form-label mt-2">Bitwise Mode</label></h5>
+                        <select id="bitwisemode" name="bitwisemode" class="form-select"
+                            aria-label="Default select example">
+                            <option value="single" selected>Single Image</option>
+                            <option value="multi">Multi Image</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mt-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Upload Image</h5>
+                        <p class="card-text">Unggah citra digital yang ingin anda manipulasi</p>
+                        <div class="upload-from">
+                            <form method="POST" enctype="multipart/form-data" id="brightnessForm">
+                                <table>
+                                    <tr>
+                                        <td><label for="im_file1">Image 1: </label></td>
+                                        <td><input type="file" name="im_file1" class="btn"></td>
+                                    </tr>
+                                    <tr id="im_file2" style="display: none;">
+                                        <td><label for="im_file2">Image 2: </label></td>
+                                        <td><input type="file" name="im_file2" class="btn"></td>
+                                    </tr>
+                                    <tr>
+                                        <input type="text" name="bitwiseModeValue" id="bitwiseModeValue" value="single" hidden>
+                                        <td colspan="2"><button type="submit" value="Upload File" class="btn mt-4" style="background-color: #fdfd1f; width: 100%">Upload File</button></td>
+                                    </tr>
+                                </table>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row mt-3">
+                <div class="col-6" style="padding: 0 8px 0 0;">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Image 1</h5>
+                            {% if data and (data.img1) %}
+                            <img id="img1" src="data:image/png;base64,{{data.img1}}" alt="test"
+                                style="width: 100%;">
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6" style="padding: 0 8px 0 0;">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Image 2</h5>
+                            {% if data and (data.img1) %}
+                            <img id="img2" src="data:image/png;base64,{{data.img2}}" alt="test"
+                                style="width: 100%;">
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+            {% if data and (data.img1) %}
+            <div class="row mt-3">
+                <div class="col-6" style="padding: 0 8px 0 0;">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Result Image</h5>
+                            <img id="imageResult" alt="test" style="width: 100%; display: none;">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6" style="padding: 0 0 0 8px;">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Bitwise Operation</h5>
+                            {% if data and (data.img1) %}
+                            <!-- <div class="form-check">
+                                <input class="form-check-input" type="radio" name="bitwiseradio" value="original"
+                                    id="bitwiseradio1" checked>
+                                <label class="form-check-label" for="bitwiseradio1">
+                                    Original
+                                </label>
+                            </div> -->
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="bitwiseradio" value="and"
+                                    id="bitwiseradio2">
+                                <label class="form-check-label" for="bitwiseradio2">
+                                    AND
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="bitwiseradio" value="or"
+                                    id="bitwiseradio3">
+                                <label class="form-check-label" for="bitwiseradio3">
+                                    OR
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="bitwiseradio" value="not"
+                                    id="bitwiseradio4">
+                                <label class="form-check-label" for="bitwiseradio4">
+                                    NOT
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="bitwiseradio" value="xor"
+                                    id="bitwiseradio5">
+                                <label class="form-check-label" for="bitwiseradio5">
+                                    XOR
+                                </label>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </section>
+</main>
+
+<script>
+
+
+    $("#bitwisemode").change(function () {
+        if(this.value == 'single') {
+            $('#im_file2').hide()
+            $('#bitwiseradio4').attr('disabled', false)
+        }
+        else if(this.value == 'multi') {
+            $('#im_file2').show()
+            $('#bitwiseradio4').attr('disabled', true)
+        }
+        
+        $('#bitwiseModeValue').val(this.value)
+    });
+
+    '{%if data%}'
+    
+    if('{{data.mode}}' == 'multi') {
+        $("#bitwisemode").val('multi')
+        $("#bitwisemode").change()
+    }
+
+    $('input[type=radio][name=bitwiseradio]').change(function () {
+        $.ajax({
+            url: '/bitwise',
+            type: 'POST',
+            data: {
+                'img1': '{{data.img1}}',
+                'img2': '{{data.img2}}',
+                'operation': this.value,
+                'mode': $('#bitwisemode').val()
+            },
+            success: function (response) {
+                $('#imageResult').attr('src', `data:image/png;base64,${response.img}`)
+                $('#imageResult').show()
+            }
+        })
+    });
+    '{%endif%}'
+</script>
+{% endblock %}
