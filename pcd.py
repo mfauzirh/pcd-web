@@ -66,7 +66,7 @@ def detectCircleByColor(img, circle_color):
     return img
 
 # Pertemuan 5
-def brightness(image, value):
+def brightnessAddSub(image, value):
     image = np.asarray(image).astype('int16')
     image = image+value
     image = np.clip(image, 0, 255)
@@ -74,14 +74,14 @@ def brightness(image, value):
     return new_image
 
 def brightness_multiplication(image, value):
-    image = np.asarray(image).astype('int16')
+    image = np.asarray(image).astype('uint16')
     image = image*value
     image = np.clip(image, 0, 255)
     new_image = image.astype('uint8') 
     return new_image
 
 def brightness_divide(image, value):
-    image = np.asarray(image).astype('int16')
+    image = np.asarray(image).astype('uint16')
     image = image/value
     image = np.clip(image, 0, 255)
     new_image = image.astype('uint8') 
@@ -90,24 +90,34 @@ def brightness_divide(image, value):
 def brightnessOpenCV(image, value):
     print(image[:,:,0])
     if value >= 0:
-        new_image = cv2.add(image, value)
+        image[:, :, 0] = cv2.add(image[:, :, 0], value)
+        image[:, :, 1] = cv2.add(image[:, :, 1], value)
+        image[:, :, 2] = cv2.add(image[:, :, 2], value)
     else:
-        new_image = cv2.subtract(image, -value)
-    new_image = np.clip(new_image, 0, 255)
+        image[:, :, 0] = cv2.subtract(image[:, :, 0], -value)
+        image[:, :, 1] = cv2.subtract(image[:, :, 1], -value)
+        image[:, :, 2] = cv2.subtract(image[:, :, 2], -value)
+
+    new_image = np.clip(image, 0, 255)
 
     return new_image
 
 def brightness_multiplicationcv(image, value):
-    new_image = cv2.multiply(image, value)
-    new_image= np.clip(new_image, 0, 255)
+    image[:, :, 0] = cv2.multiply(image[:, :, 0], value)
+    image[:, :, 1] = cv2.multiply(image[:, :, 1], value)
+    image[:, :, 2] = cv2.multiply(image[:, :, 2], value)
+    new_image= np.clip(image, 0, 255)
     return new_image
 
 def brightness_dividecv(image, value):
-    new_image = cv2.divide(image, value)
-    new_image= np.clip(new_image, 0, 255)
+    print(image)
+    image[:, :, 0] = cv2.divide(image[:, :, 0], value)
+    image[:, :, 1] = cv2.divide(image[:, :, 1], value)
+    image[:, :, 2] = cv2.divide(image[:, :, 2], value)
+    new_image= np.clip(image, 0, 255)
     return new_image
 
-def make_dimension_equal(image1, image2):
+def make_dimension_equal(image1, image2, x_offset=0, y_offset=0):
     height1, width1 = image1.shape[:2]
     height2, width2 = image2.shape[:2]
 
@@ -116,12 +126,10 @@ def make_dimension_equal(image1, image2):
 
     blank_image = np.zeros((max_height,max_width,3), np.uint8)
     blank_image[:,:] = (0,0,0)
-    x_offset = y_offset = 0
 
-    new_image_1 = blank_image.copy()                    # (600, 900, 3)
-    new_image_2 = blank_image.copy()                    # (600, 900, 3)
+    new_image_1 = blank_image.copy()                   
+    new_image_2 = blank_image.copy()                    
 
-    # Here, y_offset+height <= blank_image.shape[0] and x_offset+width <= blank_image.shape[1]
     new_image_1[y_offset:y_offset+height1, x_offset:x_offset+width1] = image1.copy()
     new_image_2[y_offset:y_offset+height2, x_offset:x_offset+width2] = image2.copy()
 

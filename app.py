@@ -4,7 +4,6 @@ from flask import Flask, request, render_template, jsonify
 import numpy as np
 import pcd
 
-import pcd
 
 app = Flask(__name__)
 
@@ -130,7 +129,7 @@ def brightness():
 
     if mode == 'manual':
         if operation == 'addSub':
-            img = pcd.brightness(img.copy(), int(value))
+            img = pcd.brightnessAddSub(img.copy(), int(value))
         elif operation == 'multiplication':
             img = pcd.brightness_multiplication(img.copy(), float(value))
         elif operation == 'division':
